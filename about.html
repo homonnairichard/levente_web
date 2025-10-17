@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Story - Tátrai Levente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Alap stílusok */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        :root {
+            --dark: #0E1012;
+            --light: #e8e5f0;
+            --text-light: #f5f5f5;
+            --text-dark: #0E1012;
+            --accent: #8b7355;
+            --transition-speed: 500ms;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: 1px solid currentColor;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 12px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            background: transparent;
+            cursor: pointer;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: currentColor;
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            left: 0;
+        }
+        
+        .btn:hover {
+            color: var(--dark);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 30px 0;
+            transition: all 0.3s ease;
+            background: rgba(14, 16, 18, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 40px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 5px 0;
+        }
+        
+        nav ul li::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: currentColor;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: currentColor;
+        }
+        
+        /* Hero section */
+        .story-hero {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+        
+        .story-hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+            z-index: 2;
+        }
+        
+        .story-hero-title {
+            font-size: 64px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+        
+        .story-hero-subtitle {
+            font-size: 18px;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeIn 1s ease 1s forwards;
+        }
+        
+        .story-hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 0.4;
+        }
+        
+        .story-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(14,16,18,0.8), rgba(14,16,18,0.9));
+            z-index: 1;
+        }
+        
+        /* Story sections */
+        .story-section {
+            padding: 100px 0;
+        }
+        
+        .story-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .story-title {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .story-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 1px;
+            background-color: currentColor;
+        }
+        
+        .story-text {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+        
+        .story-text strong {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        .story-image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 60px 0;
+        }
+        
+        .story-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .story-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .story-quote {
+            font-size: 24px;
+            font-style: italic;
+            text-align: center;
+            margin: 60px 0;
+            padding: 40px;
+            border-left: 2px solid var(--accent);
+            background: rgba(139, 115, 85, 0.1);
+        }
+        
+        .story-milestones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+        
+        .milestone {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .milestone:hover {
+            transform: translateY(-5px);
+        }
+        
+        .milestone-year {
+            font-size: 48px;
+            font-weight: 300;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .milestone-text {
+            font-size: 16px;
+            color: #ccc;
+        }
+        
+        /* Philosophy section */
+        .philosophy-section {
+            background: rgba(255,255,255,0.02);
+            padding: 100px 0;
+        }
+        
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .philosophy-item {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .philosophy-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .philosophy-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .philosophy-text {
+            font-size: 16px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        /* Gear section */
+        .gear-section {
+            padding: 100px 0;
+        }
+        
+        .gear-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .gear-item {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .gear-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        .gear-name {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .gear-description {
+            font-size: 14px;
+            color: #999;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(139, 115, 85, 0.1), rgba(14, 16, 18, 0.9));
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .cta-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        
+        .cta-text {
+            font-size: 18px;
+            margin-bottom: 40px;
+            color: #ccc;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-links a {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: currentColor;
+            transition: width 0.3s ease;
+        }
+        
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+        
+        .copyright {
+            font-size: 12px;
+            color: #999;
+            letter-spacing: 1px;
+        }
+        
+        /* Animációk */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Scroll animációk */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .story-hero-title {
+                font-size: 48px;
+            }
+            
+            .story-image-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark);
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                text-align: center;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 15px 0;
+            }
+            
+            .story-hero-title {
+                font-size: 36px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .story-title {
+                font-size: 28px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .story-hero-title {
+                font-size: 28px;
+            }
+            
+            .story-hero-subtitle {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Tátrai Levente</a>
+            <nav>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul>
+                    <li><a href="index.html#stills">STILLS</a></li>
+                    <li><a href="index.html#motion">MOTION</a></li>
+                    <li><a href="story.html">STORY</a></li>
+                    <li><a href="index.html#about">ABOUT</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="story-hero">
+        <img src="https://cdn.prod.website-files.com/60db5e59f76ae577e9f50d42/61e939dee9c133675fbab858_Photo%20-%20Dolomites%20-%201.jpg" alt="Dolomites" class="story-hero-image">
+        <div class="story-hero-overlay"></div>
+        <div class="story-hero-content">
+            <h1 class="story-hero-title">My Story</h1>
+            <p class="story-hero-subtitle">From the Dolomites to the World</p>
+        </div>
+    </section>
+
+    <!-- Early Years Section -->
+    <section class="story-section">
+        <div class="container story-container">
+            <h2 class="story-title animate-on-scroll">The Beginning</h2>
+            <p class="story-text animate-on-scroll">
+                I was born and raised in a <strong>tiny mountain village nestled in the heart of the Dolomites</strong> in northern Italy. Growing up surrounded by these majestic peaks, I developed a deep connection with nature from an early age. My childhood was spent exploring forests, climbing hills, and watching the ever-changing light dance across the mountain faces.
+            </p>
+            <p class="story-text animate-on-scroll">
+                My first camera was a gift from my grandfather when I turned twelve - a simple point-and-shoot that I carried everywhere. I documented everything: family gatherings, village festivals, and most importantly, the stunning landscapes that were my playground. Little did I know that this simple gift would shape the course of my life.
+            </p>
+            
+            <div class="story-image-grid">
+                <img src="https://cdn.prod.website-files.com/60db5e59f76ae577e9f50d42/61e939de8821f377935af4c3_Photo%20-%20Dolomites%20-%202.jpg" alt="Dolomites Childhood" class="story-image animate-on-scroll">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Mountain Village" class="story-image animate-on-scroll">
+            </div>
+            
+            <blockquote class="story-quote animate-on-scroll">
+                "The mountains were my first teachers. They taught me about patience, perspective, and the beauty of impermanence."
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- Career Journey Section -->
+    <section class="philosophy-section">
+        <div class="container story-container">
+            <h2 class="story-title animate-on-scroll">Finding My Path</h2>
+            <p class="story-text animate-on-scroll">
+                After studying visual arts in Milan, I returned to the mountains with a new perspective and professional equipment. What started as a passion project quickly evolved into a career. I began sharing my work online, and to my surprise, people responded to the unique way I saw and captured the world.
+            </p>
+            <p class="story-text animate-on-scroll">
+                My breakthrough came when <strong>National Geographic featured one of my Dolomites series</strong>. This recognition opened doors to commercial work with outdoor brands, tourism boards, and publications that valued my authentic connection to wild places.
+            </p>
+            
+            <div class="story-milestones">
+                <div class="milestone animate-on-scroll">
+                    <div class="milestone-year">2015</div>
+                    <div class="milestone-text">First Professional Camera</div>
+                </div>
+                <div class="milestone animate-on-scroll">
+                    <div class="milestone-year">2017</div>
+                    <div class="milestone-text">National Geographic Feature</div>
+                </div>
+                <div class="milestone animate-on-scroll">
+                    <div class="milestone-year">2019</div>
+                    <div class="milestone-text">First Major Exhibition</div>
+                </div>
+                <div class="milestone animate-on-scroll">
+                    <div class="milestone-year">2021</div>
+                    <div class="milestone-text">Film Directing Debut</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="story-section">
+        <div class="container">
+            <h2 class="story-title animate-on-scroll">My Philosophy</h2>
+            <p class="story-text animate-on-scroll">
+                At the heart of my work is a belief that <strong>every landscape has a story to tell</strong>, and our role as visual storytellers is to listen carefully and translate that story with authenticity and respect.
+            </p>
+            
+            <div class="philosophy-grid">
+                <div class="philosophy-item animate-on-scroll">
+                    <div class="philosophy-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <h3 class="philosophy-title">Connection</h3>
+                    <p class="philosophy-text">I believe in forming genuine connections with the places I photograph, spending time to understand their rhythms and moods.</p>
+                </div>
+                <div class="philosophy-item animate-on-scroll">
+                    <div class="philosophy-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="philosophy-title">Color</h3>
+                    <p class="philosophy-text">My work is characterized by a vivid color palette that reflects the emotional resonance I feel in each landscape.</p>
+                </div>
+                <div class="philosophy-item animate-on-scroll">
+                    <div class="philosophy-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3 class="philosophy-title">Storytelling</h3>
+                    <p class="philosophy-text">Whether through stills or motion, my goal is always to tell a compelling story that transports the viewer.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gear Section -->
+    <section class="gear-section">
+        <div class="container">
+            <h2 class="story-title animate-on-scroll">My Tools</h2>
+            <p class="story-text animate-on-scroll">
+                While equipment doesn't make the artist, having reliable tools that become extensions of your vision is essential. Here's what I typically work with:
+            </p>
+            
+            <div class="gear-grid">
+                <div class="gear-item animate-on-scroll">
+                    <img src="https://cdn.prod.website-files.com/60db5e59f76ae577e9f50d42/636aa2304bdb11c17745eefb_favicon-32x32-dark.svg" alt="Camera" class="gear-image">
+                    <h3 class="gear-name">Sony A7R IV</h3>
+                    <p class="gear-description">My primary camera for stills, loved for its resolution and dynamic range.</p>
+                </div>
+                <div class="gear-item animate-on-scroll">
+                    <img src="https://cdn.prod.website-files.com/60db5e59f76ae577e9f50d42/636aa2304bdb11c17745eefb_favicon-32x32-dark.svg" alt="Lens" class="gear-image">
+                    <h3 class="gear-name">Sony 16-35mm f/2.8</h3>
+                    <p class="gear-description">My go-to wide angle for landscapes and environmental portraits.</p>
+                </div>
+                <div class="gear-item animate-on-scroll">
+                    <img src="https://cdn.prod.website-files.com/60db5e59f76ae577e9f50d42/636aa2304bdb11c17745eefb_favicon-32x32-dark.svg" alt="Drone" class="gear-image">
+                    <h3 class="gear-name">DJI Mavic 3</h3>
+                    <p class="gear-description">For aerial perspectives that reveal patterns and scales invisible from the ground.</p>
+                </div>
+                <div class="gear-item animate-on-scroll">
+                    <img src="https://cdn.prod.website-files.com/60db5e59f76ae577e9f50d42/636aa2304bdb11c17745eefb_favicon-32x32-dark.svg" alt="Video Camera" class="gear-image">
+                    <h3 class="gear-name">Sony FX6</h3>
+                    <p class="gear-description">My choice for film projects, balancing mobility with professional features.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title animate-on-scroll">Let's Create Together</h2>
+            <p class="cta-text animate-on-scroll">
+                Whether you're looking to capture the essence of a place, tell a compelling brand story, or collaborate on a creative project, I'd love to hear about your vision.
+            </p>
+            <a href="mailto:photo@giuligartner.com" class="btn animate-on-scroll">Get In Touch</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Tátrai Levente</div>
+                <div class="footer-links">
+                    <a href="index.html#stills">STILLS</a>
+                    <a href="index.html#motion">MOTION</a>
+                    <a href="story.html">STORY</a>
+                    <a href="index.html#about">ABOUT</a>
+                    <a href="https://www.instagram.com/giuligartner/" target="_blank">INSTAGRAM</a>
+                    <a href="mailto:photo@giuligartner.com">EMAIL</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Tátrai Levente. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.querySelector('nav ul');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.backgroundColor = 'rgba(14, 16, 18, 0.95)';
+                header.style.padding = '15px 0';
+            } else {
+                header.style.backgroundColor = 'rgba(14, 16, 18, 0.9)';
+                header.style.padding = '30px 0';
+            }
+        });
+        
+        // Scroll animation
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('animated');
+                }
+            });
+        };
+        
+        // Initial check on page load
+        window.addEventListener('load', animateOnScroll);
+        // Check on scroll
+        window.addEventListener('scroll', animateOnScroll);
+    </script>
+</body>
+</html>
