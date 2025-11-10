@@ -1,17 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tátrai Levente — Photographer & Filmmaker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- External Libraries -->
-    <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60db5e59f76ae577e9f50d42" crossorigin="anonymous"></script>
-    <script src="https://cdn.prod.website-files.com/60db5e59f76ae577e9f50d42/js/webflow.a8b900b8d.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@0.2.28/bundled/lenis.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-copyclip@1/copyclip.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-autovideo@1/autovideo.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         /* Alap stílusok */
@@ -19,19 +15,22 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
         }
         
         :root {
             --dark: #0E1012;
-            --light: #e8e5f0;
+            --dark-lighter: #1a1d21;
+            --light: #f8f7fa;
             --text-light: #f5f5f5;
             --text-dark: #0E1012;
-            --transition-speed: 500ms;
+            --accent: #d4af37;
+            --transition-speed: 600ms;
+            --section-padding: clamp(80px, 12vw, 160px);
         }
         
         html {
-            scroll-behavior: initial;
+            scroll-behavior: smooth;
         }
         
         body {
@@ -39,7 +38,7 @@
             color: var(--text-light);
             line-height: 1.6;
             overflow-x: hidden;
-            transition: color var(--transition-speed), background-color var(--transition-speed) !important;
+            font-weight: 300;
         }
         
         a {
@@ -55,13 +54,16 @@
         }
         
         .btn {
-            display: inline-block;
-            padding: 12px 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
             border: 1px solid currentColor;
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 12px;
-            transition: all 0.3s;
+            font-weight: 400;
+            transition: all 0.4s;
             position: relative;
             overflow: hidden;
             z-index: 1;
@@ -89,6 +91,15 @@
             color: var(--dark);
         }
 
+        .btn-accent {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-accent:hover {
+            color: var(--dark);
+        }
+
         /* Header */
         header {
             position: fixed;
@@ -96,9 +107,17 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            padding: 30px 0;
-            transition: all 0.3s ease;
+            padding: 24px 0;
+            transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
             background: transparent;
+            mix-blend-mode: difference;
+        }
+        
+        header.scrolled {
+            background: rgba(14, 16, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 0;
+            mix-blend-mode: normal;
         }
         
         .header-container {
@@ -112,23 +131,25 @@
             font-weight: 400;
             letter-spacing: 2px;
             text-transform: uppercase;
+            color: var(--text-light);
         }
         
         nav ul {
             display: flex;
             list-style: none;
+            gap: 40px;
         }
         
         nav ul li {
-            margin-left: 40px;
             position: relative;
         }
         
         nav ul li a {
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            padding: 5px 0;
+            padding: 8px 0;
+            font-weight: 400;
         }
         
         nav ul li::after {
@@ -150,9 +171,10 @@
             display: none;
             background: none;
             border: none;
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
             color: currentColor;
+            z-index: 1001;
         }
         
         /* Hero section */
@@ -167,58 +189,73 @@
         }
         
         .hero-content {
-            max-width: 800px;
+            max-width: 900px;
             padding: 0 20px;
             z-index: 2;
-        }
-        
-        .hero-title {
-            font-size: 72px;
-            font-weight: 300;
-            margin-bottom: 20px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        
-        .hero-subtitle {
-            font-size: 18px;
-            margin-bottom: 40px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            opacity: 0;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 40px;
-            opacity: 0;
-        }
-        
-        .social-links a {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 8px 0;
             position: relative;
         }
         
-        .social-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: currentColor;
-            transition: width 0.3s ease;
+        .hero-title {
+            font-size: clamp(48px, 8vw, 120px);
+            font-weight: 300;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+            line-height: 1.1;
+            text-transform: uppercase;
         }
         
-        .social-links a:hover::after {
-            width: 100%;
+        .hero-title span {
+            display: block;
+            font-size: clamp(20px, 3vw, 32px);
+            letter-spacing: 4px;
+            margin-top: 16px;
+            font-weight: 300;
+            opacity: 0.8;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(16px, 2vw, 20px);
+            margin-bottom: 48px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+        
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            z-index: 2;
+        }
+        
+        .hero-scroll:hover {
+            opacity: 1;
+        }
+        
+        .hero-scroll::after {
+            content: '';
+            width: 1px;
+            height: 40px;
+            background: currentColor;
+            animation: scrollBounce 2s infinite;
+        }
+        
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
         }
         
         .hero-video {
@@ -237,13 +274,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.3);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
             z-index: 1;
         }
         
         /* About section */
         .about {
-            padding: 120px 0;
+            padding: var(--section-padding) 0;
             background-color: var(--dark);
         }
         
@@ -254,18 +291,19 @@
         }
         
         .about-title {
-            font-size: 36px;
+            font-size: clamp(28px, 4vw, 42px);
             font-weight: 300;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-            line-height: 1.3;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+            line-height: 1.4;
         }
         
         .about-text {
-            font-size: 16px;
-            margin-bottom: 30px;
+            font-size: 18px;
+            margin-bottom: 40px;
             line-height: 1.8;
             color: #ccc;
+            font-weight: 300;
         }
         
         .about-text strong {
@@ -280,56 +318,88 @@
             background-clip: text;
             color: transparent;
             transition: background-position 0.5s ease;
+            font-weight: 500;
         }
         
         .instalink:hover {
             background-position: 100% 0;
         }
         
-        /* Photo section with split effect */
+        /* Photo Section */
         .photo-section {
-            padding: 120px 0;
+            padding: var(--section-padding) 0;
             position: relative;
         }
         
-        .photo-stack {
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .section-title {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 1px;
+            background-color: var(--accent);
+        }
+        
+        .section-subtitle {
+            font-size: 16px;
+            color: #aaa;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+        
+        .photo-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            position: relative;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
         }
         
-        .photo-stack-item {
+        .photo-item {
             position: relative;
             overflow: hidden;
-            aspect-ratio: 3/4;
-            transition: all 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+            aspect-ratio: 4/5;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
         }
         
-        .photo-stack-item.left {
-            transform-origin: right center;
+        .photo-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
         
-        .photo-stack-item.right {
-            transform-origin: left center;
+        .image-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
         
-        .photo-stack:hover .photo-stack-item.left {
-            transform: translateX(-10%) scale(0.95);
-        }
-        
-        .photo-stack:hover .photo-stack-item.right {
-            transform: translateX(10%) scale(0.95);
-        }
-        
-        .photo-stack-item img {
+        .photo-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s ease;
+            transition: transform 0.8s ease;
         }
         
-        .photo-stack-item:hover img {
+        .photo-item:hover img {
             transform: scale(1.05);
         }
         
@@ -339,61 +409,146 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7));
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.8) 100%);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             padding: 30px;
             color: var(--text-light);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
         
-        .photo-stack-item:hover .photo-overlay {
+        .photo-item:hover .photo-overlay {
             opacity: 1;
         }
         
         .photo-meta {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        
-        .photo-label {
+            margin-bottom: 15px;
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease 0.1s;
+        }
+        
+        .photo-item:hover .photo-meta {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .photo-title {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 400;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease 0.2s;
         }
         
-        /* Motion section */
+        .photo-item:hover .photo-title {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .photo-section .btn {
+            align-self: flex-start;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease 0.3s;
+        }
+        
+        .photo-item:hover .btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-footer {
+            text-align: center;
+        }
+        
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border: 1px solid currentColor;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 12px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            background: transparent;
+        }
+        
+        .view-all-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: currentColor;
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+        
+        .view-all-btn:hover::before {
+            left: 0;
+        }
+        
+        .view-all-btn:hover {
+            color: var(--dark);
+        }
+        
+        /* Motion Section */
         .motion-section {
-            padding: 120px 0;
-            background-color: var(--dark);
+            padding: var(--section-padding) 0;
+            background-color: var(--dark-lighter);
         }
         
         .motion-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
         }
         
         .motion-item {
             position: relative;
             overflow: hidden;
             aspect-ratio: 16/9;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        
+        .motion-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .video-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
         
         .motion-item video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        
+        .motion-item:hover video {
+            transform: scale(1.05);
         }
         
         .motion-overlay {
@@ -405,30 +560,124 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.4);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
         
         .motion-item:hover .motion-overlay {
             opacity: 1;
         }
         
+        .motion-content {
+            text-align: center;
+            color: white;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+        
+        .motion-item:hover .motion-content {
+            transform: translateY(0);
+        }
+        
+        .motion-title {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .motion-description {
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #ddd;
+            font-weight: 300;
+        }
+        
         .play-icon {
             font-size: 48px;
             color: white;
             opacity: 0.8;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
         }
         
         .motion-item:hover .play-icon {
             transform: scale(1.2);
+            opacity: 1;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            padding: var(--section-padding) 0;
+            background-color: var(--dark);
+        }
+        
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .contact-title {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        
+        .contact-text {
+            font-size: 18px;
+            margin-bottom: 40px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+        
+        .contact-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            min-width: 160px;
+        }
+        
+        .contact-link:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .contact-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+        
+        .contact-value {
+            font-size: 16px;
+            font-weight: 400;
         }
         
         /* Footer */
         footer {
-            background-color: var(--dark);
-            padding: 80px 0 40px;
+            background-color: var(--dark-lighter);
+            padding: 60px 0 30px;
             text-align: center;
         }
         
@@ -451,13 +700,16 @@
             display: flex;
             gap: 40px;
             margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
         .footer-links a {
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 2px;
             position: relative;
+            font-weight: 400;
         }
         
         .footer-links a::after {
@@ -541,40 +793,23 @@
             90% { background-position: -10% 10%;}
         }
         
-        /* Light mode */
-        .light-mode body {
-            background-color: var(--light);
-            color: var(--text-dark);
-        }
-        
-        .light-mode .btn:hover {
-            color: var(--light);
-        }
-        
-        .light-mode .about-text {
-            color: #666;
-        }
-        
-        .light-mode .about-text strong {
-            color: var(--text-dark);
-        }
-        
-        .light-mode .copyright {
-            color: #777;
-        }
-        
         /* Responsive design */
         @media (max-width: 992px) {
-            .hero-title {
-                font-size: 56px;
-            }
-            
-            .photo-stack {
+            .photo-grid,
+            .motion-grid {
                 grid-template-columns: 1fr;
             }
             
             .motion-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .contact-links {
+                gap: 20px;
+            }
+            
+            .contact-link {
+                min-width: 140px;
             }
         }
         
@@ -585,46 +820,55 @@
             
             nav ul {
                 display: none;
-                position: absolute;
-                top: 100%;
+                position: fixed;
+                top: 0;
                 left: 0;
                 width: 100%;
+                height: 100vh;
                 background-color: var(--dark);
                 flex-direction: column;
-                padding: 20px 0;
-                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
                 text-align: center;
+                z-index: 999;
             }
             
             nav ul.active {
                 display: flex;
             }
             
-            nav ul li {
-                margin: 15px 0;
-            }
-            
             .hero-title {
-                font-size: 42px;
+                font-size: clamp(36px, 10vw, 60px);
             }
             
             .footer-links {
                 flex-direction: column;
                 gap: 20px;
             }
+            
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contact-link {
+                width: 100%;
+                max-width: 300px;
+            }
         }
         
         @media (max-width: 576px) {
-            .hero-title {
-                font-size: 32px;
+            .photo-grid {
+                grid-template-columns: 1fr;
             }
             
-            .hero-subtitle {
-                font-size: 16px;
+            .section-header {
+                margin-bottom: 60px;
             }
             
-            .about-title {
-                font-size: 28px;
+            .hero-scroll {
+                bottom: 20px;
             }
         }
     </style>
@@ -636,15 +880,16 @@
     <!-- Header -->
     <header>
         <div class="container header-container">
-            <a href="#" class="logo">Tátrai Levente</a>
+            <a href="index.html" class="logo">Tátrai Levente</a>
             <nav>
                 <button class="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
                 </button>
                 <ul>
-                    <li><a href="#stills">STILLS</a></li>
-                    <li><a href="#motion">MOTION</a></li>
-                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="#stills">Fotók</a></li>
+                    <li><a href="#motion">Videók</a></li>
+                    <li><a href="about.html">Rólam</a></li>
+                    <li><a href="#contact">Kapcsolat</a></li>
                 </ul>
             </nav>
         </div>
@@ -652,58 +897,82 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <video class="hero-video" muted loop autoplay>
+        <video class="hero-video" muted loop autoplay playsinline>
             <source src="https://cdn.prod.website-files.com/60db5e59f76ae577e9f50d42/63600c288b483e9c7398616b_reel-transcode.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1 class="hero-title">Tátrai Levente</h1>
-            <p class="hero-subtitle">Photographer & Filmmaker</p>
-            <div class="social-links">
-                <a href="https://www.instagram.com/giuligartner/" target="_blank">INSTAGRAM</a>
-                <a href="mailto:photo@giuligartner.com">EMAIL</a>
-                <a href="#" class="theme-toggle">FTA</a>
-            </div>
-        </div>
+            <h1 class="hero-title">
+                <span>Photographer & Filmmaker</span>
+            </h1>
     </section>
 
     <!-- About Section -->
     <section class="about" id="about">
         <div class="container about-container">
-            <h2 class="about-title">A tiny mountain village where it all began...</h2>
+            <h2 class="about-title">Egy kamera, egy történet, és a vágy, hogy a pillanatokból érzelmek szülessenek — így kezdődött minden.</h2>
             <p class="about-text">
-                <strong>Tátrai Levente (<a href="https://www.instagram.com/_t.levi0_/" target="_blank" class="instalink">@_t.levi0_</a>)</strong> is an outdoor, travel, and commercial photographer, filmmaker, and storyteller from the Dolomites in northern Italy. Her work focuses on capturing wild and rugged landscapes with a vivid color palette and dreamy elements. Her love for photography has spilled over into filmmaking which is one of the main creative outlets she pursues today.
+                Fotós és videográfus vagyok, aki szenvedélyesen dokumentálja a világ szépségeit. Munkáim célja, hogy átadjam a látvány és az érzelem egyedi keverékét, amit minden egyes pillanat nyújt.
             </p>
-            <a href="about.html" class="btn">read my story</a>
+            <a href="https://www.instagram.com/_t.levi0_/" target="_blank" class="btn">
+                <i class="fab fa-instagram"></i>
+                Kövess Instagramon
+            </a>
         </div>
     </section>
 
-    <!-- Photo Section with Split Effect -->
+    <!-- Photo Section -->
     <section class="photo-section" id="stills">
         <div class="container">
-            <div class="photo-stack">
-                <div class="photo-stack-item left animate-on-scroll">
-                    <img src="https://cdn.prod.website-files.com/60eeb025115a75902b86a796/647e3cc83822b06137a15c00_Header%201%20Left.jpg" alt="Greenland Landscape">
+            <div class="section-header">
+                <h2 class="section-title">Fotós Munkáim</h2>
+            </div>
+            <div class="photo-grid">
+                <div class="photo-item animate-on-scroll">
+                    <div class="image-container">
+                        <img src="https://cdn.prod.website-files.com/60eeb025115a75902b86a796/647e3cc83822b06137a15c00_Header%201%20Left.jpg" alt="Greenland Landscape">
+                    </div>
                     <div class="photo-overlay">
                         <div class="photo-meta">
-                            <div class="photo-label">March 2023</div>
-                            <div class="photo-label">Greenland</div>
+                            <div class="photo-label">2023 Március</div>
+                            <div class="photo-label">Grönland</div>
                         </div>
                         <h3 class="photo-title">Visit Greenland</h3>
-                        <a href="#" class="btn">see case study</a>
+                        <a href="portfolio.html" class="btn">Galéria Megtekintése</a>
                     </div>
                 </div>
-                <div class="photo-stack-item right animate-on-scroll">
-                    <img src="https://cdn.prod.website-files.com/60eeb025115a75902b86a796/636e58a592fb7b4db982c315_cayuga-collection-preview-left.jpg" alt="Costa Rica Landscape">
+                <div class="photo-item animate-on-scroll">
+                    <div class="image-container">
+                        <img src="https://cdn.prod.website-files.com/60eeb025115a75902b86a796/636e58a592fb7b4db982c315_cayuga-collection-preview-left.jpg" alt="Costa Rica Landscape">
+                    </div>
                     <div class="photo-overlay">
                         <div class="photo-meta">
-                            <div class="photo-label">July 2021</div>
+                            <div class="photo-label">2021 Július</div>
                             <div class="photo-label">Costa Rica</div>
                         </div>
                         <h3 class="photo-title">Cayuga Collection</h3>
-                        <a href="#" class="btn">see case study</a>
+                        <a href="portfolio.html" class="btn">Galéria Megtekintése</a>
                     </div>
                 </div>
+                <div class="photo-item animate-on-scroll">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mountain Landscape">
+                    </div>
+                    <div class="photo-overlay">
+                        <div class="photo-meta">
+                            <div class="photo-label">2022 Szeptember</div>
+                            <div class="photo-label">Hegyvidék</div>
+                        </div>
+                        <h3 class="photo-title">Mountain Dreams</h3>
+                        <a href="portfolio.html" class="btn">Galéria Megtekintése</a>
+                    </div>
+                </div>
+            </div>
+            <div class="section-footer">
+                <a href="portfolio.html" class="view-all-btn">
+                    Összes Projekt Megtekintése
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -711,24 +980,72 @@
     <!-- Motion Section -->
     <section class="motion-section" id="motion">
         <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Videó Munkák</h2>
+            </div>
             <div class="motion-grid">
                 <div class="motion-item animate-on-scroll">
-                    <video muted loop>
-                        <source src="https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4" type="video/mp4">
-                    </video>
+                    <div class="video-container">
+                        <video muted loop playsinline>
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4" type="video/mp4">
+                        </video>
+                    </div>
                     <div class="motion-overlay">
-                        <i class="fas fa-play play-icon"></i>
+                        <div class="motion-content">
+                            <h3 class="motion-title">Erdei Patak</h3>
+                            <p class="motion-description">Napfény az ágak között</p>
+                            <i class="fas fa-play play-icon"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="motion-item animate-on-scroll">
-                    <video muted loop>
-                        <source src="https://assets.mixkit.co/videos/preview/mixkit-walking-in-a-pine-forest-43756-large.mp4" type="video/mp4">
-                    </video>
+                    <div class="video-container">
+                        <video muted loop playsinline>
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-walking-in-a-pine-forest-43756-large.mp4" type="video/mp4">
+                        </video>
+                    </div>
                     <div class="motion-overlay">
-                        <i class="fas fa-play play-icon"></i>
+                        <div class="motion-content">
+                            <h3 class="motion-title">Fenyőerdő</h3>
+                            <p class="motion-description">Utazás az erdő mélyén</p>
+                            <i class="fas fa-play play-icon"></i>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container contact-container">
+            <h2 class="contact-title">Lépj Velem Kapcsolatba</h2>
+            <p class="contact-text">Készítsünk együtt valami emlékezetest! Keress bátran, ha van egy projekt, amiben segíthetek.</p>
+            
+            <div class="contact-links">
+                <a href="mailto:tatraifoto01@gmail.com" class="contact-link">
+                    <i class="fas fa-envelope contact-icon"></i>
+                    <span class="contact-label">Email</span>
+                    <span class="contact-value">tatraifoto01@gmail.com</span>
+                </a>
+                
+                <a href="https://www.instagram.com/_t.levi0_/" target="_blank" class="contact-link">
+                    <i class="fab fa-instagram contact-icon"></i>
+                    <span class="contact-label">Instagram</span>
+                    <span class="contact-value">@_t.levi0_</span>
+                </a>
+                
+                <a href="#" class="contact-link">
+                    <i class="fas fa-phone contact-icon"></i>
+                    <span class="contact-label">Telefon</span>
+                    <span class="contact-value">+36 30 123 4567</span>
+                </a>
+            </div>
+            
+            <a href="mailto:tatraifoto01@gmail.com" class="btn btn-accent">
+                <i class="fas fa-paper-plane"></i>
+                Üzenet Küldése
+            </a>
         </div>
     </section>
 
@@ -738,15 +1055,15 @@
             <div class="footer-content">
                 <div class="footer-logo">Tátrai Levente</div>
                 <div class="footer-links">
-                    <a href="#stills">STILLS</a>
-                    <a href="#motion">MOTION</a>
-                    <a href="about.html">ABOUT</a>
-                    <a href="https://www.instagram.com/giuligartner/" target="_blank">INSTAGRAM</a>
-                    <a href="mailto:photo@giuligartner.com">EMAIL</a>
+                    <a href="#stills">Fotók</a>
+                    <a href="#motion">Videók</a>
+                    <a href="about.html">Rólam</a>
+                    <a href="#contact">Kapcsolat</a>
+                    <a href="https://www.instagram.com/_t.levi0_/" target="_blank">Instagram</a>
                 </div>
             </div>
             <div class="copyright">
-                &copy; 2023 Tátrai Levente. All rights reserved.
+                &copy; 2025 Tátrai Levente. Minden jog fenntartva.
             </div>
         </div>
     </footer>
@@ -755,41 +1072,28 @@
         // Mobile menu toggle
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const navMenu = document.querySelector('nav ul');
+        const header = document.querySelector('header');
         
         mobileMenuBtn.addEventListener('click', () => {
             navMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
         });
         
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    navMenu.classList.remove('active');
-                }
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
             });
         });
         
         // Header scroll effect
         window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
             if (window.scrollY > 100) {
-                header.style.backgroundColor = 'rgba(14, 16, 18, 0.95)';
-                header.style.padding = '15px 0';
+                header.classList.add('scrolled');
             } else {
-                header.style.backgroundColor = 'transparent';
-                header.style.padding = '30px 0';
+                header.classList.remove('scrolled');
             }
         });
         
@@ -825,69 +1129,39 @@
             });
         });
         
-        // Theme toggle
-        const themeToggle = document.querySelector('.theme-toggle');
-        themeToggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.documentElement.classList.toggle('light-mode');
-            
-            // Store preference in localStorage
-            if (document.documentElement.classList.contains('light-mode')) {
-                localStorage.setItem('light-mode', 'true');
-            } else {
-                localStorage.removeItem('light-mode');
-            }
-        });
-        
-        // Check for saved theme preference
-        if (localStorage.getItem('light-mode') !== null) {
-            document.documentElement.classList.add('light-mode');
-        }
-
         // Hero animations
         document.addEventListener('DOMContentLoaded', function() {
-            // Animate hero elements
-            gsap.to('.hero-title', {
-                duration: 1,
-                y: 0,
-                opacity: 1,
-                delay: 0.5,
-                ease: "power2.out"
-            });
+            // Animate hero elements with delay
+            const heroTitle = document.querySelector('.hero-title');
+            const heroSubtitle = document.querySelector('.hero-subtitle');
+            const heroBtn = document.querySelector('.hero-content .btn');
             
-            gsap.to('.hero-subtitle', {
-                duration: 1,
-                y: 0,
-                opacity: 1,
-                delay: 1,
-                ease: "power2.out"
-            });
+            setTimeout(() => {
+                heroTitle.style.opacity = '1';
+                heroTitle.style.transform = 'translateY(0)';
+            }, 500);
             
-            gsap.to('.social-links', {
-                duration: 1,
-                y: 0,
-                opacity: 1,
-                delay: 1.5,
-                ease: "power2.out"
-            });
+            setTimeout(() => {
+                heroSubtitle.style.opacity = '1';
+                heroSubtitle.style.transform = 'translateY(0)';
+            }, 1000);
+            
+            setTimeout(() => {
+                heroBtn.style.opacity = '1';
+                heroBtn.style.transform = 'translateY(0)';
+            }, 1500);
         });
 
-        // Initialize Lenis smooth scroll
-        const lenis = new Lenis({
-            duration: 1.5,
-            easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            smooth: true,
-            smoothTouch: false,
-            touchMultiplier: 1.5,
+        // Simple scroll animation as fallback
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.hero-content');
+            
+            parallaxElements.forEach(function(el) {
+                const speed = 0.5;
+                el.style.transform = `translateY(${scrolled * speed}px)`;
+            });
         });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-
-        requestAnimationFrame(raf);
     </script>
 </body>
 </html>
